@@ -13,6 +13,7 @@ function index({ domain }) {
       userAgent.includes(agentName)
     );
     if (inAppBrowser) {
+      alert(inAppBrowser);
       window.location.href = `${domain}?openExternalBrowser=1`;
       // if (/android/i.test(userAgent)) {
       // }
