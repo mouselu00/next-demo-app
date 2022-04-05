@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Center, Divider, Flex, Heading } from "@chakra-ui/react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { signIn, getSession } from "next-auth/react";
 
-function index() {
+function index({ domain }) {
+  useEffect(() => {
+    // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
+    const webViewsAgentName = ["Line", "FBAV"];
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    const inAppBrowser = webViewsAgentName.find((agentName) =>
+      userAgent.includes(agentName)
+    );
+    if (inAppBrowser) {
+      if (/android/i.test(userAgent)) {
+        window.location.href = `googlechrome://navigate?url=${domain}`;
+      }
+
+      // iOS detection from: http://stackoverflow.com/a/9039885/177710
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        alert("IOS");
+        window.location.href = `googlechrome://${domain}`;
+      }
+    }
+  }, []);
   return (
     <Center h="100vh">
       <Flex
@@ -51,8 +71,11 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
   return {
-    props: {},
+    props: {
+      domain: context.req.headers.host,
+    },
   };
 }
 
