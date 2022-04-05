@@ -8,13 +8,13 @@ function index({ domain }) {
     // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
     const webViewsAgentName = ["Line"];
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    alert(userAgent);
     const inAppBrowser = webViewsAgentName.find((agentName) =>
       userAgent.includes(agentName)
     );
-    alert(inAppBrowser);
-    if (inAppBrowser) {
-      window.location.href = `${domain}?openExternalBrowser=1`;
-    }
+    // if (inAppBrowser) {
+    //   window.location.href = `${domain}?openExternalBrowser=1`;
+    // }
   }, []);
   return (
     <Center h="100vh">
