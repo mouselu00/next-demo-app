@@ -8,7 +8,7 @@ const config = {
 
 // create LINE SDK client
 const client = new line.Client(config);
-export default function wenhook(req, res) {
+export default function callback(req, res) {
   if (req.method === "POST") {
     line.middleware(config);
     Promise.all(req.body.events.map(handleEvent))
