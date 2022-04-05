@@ -6,22 +6,22 @@ import { signIn, getSession } from "next-auth/react";
 function index({ domain }) {
   useEffect(() => {
     // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
-    const webViewsAgentName = ["Line", "FBAV"];
+    const webViewsAgentName = ["Line"];
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     const inAppBrowser = webViewsAgentName.find((agentName) =>
       userAgent.includes(agentName)
     );
     if (inAppBrowser) {
-      if (/android/i.test(userAgent)) {
-        window.location.href = `googlechrome://navigate?url=${domain}`;
-      }
+      window.location.href = `${domain}?openExternalBrowser=1`;
+      // if (/android/i.test(userAgent)) {
+      // }
 
-      // iOS detection from: http://stackoverflow.com/a/9039885/177710
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        alert("IOS");
-        window.location.href = `googlechrome://${domain}`;
-      }
+      // // iOS detection from: http://stackoverflow.com/a/9039885/177710
+      // if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      //   alert("IOS");
+      //   window.location.href = `googlechrome://${domain}`;
+      // }
     }
   }, []);
   return (
