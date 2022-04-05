@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^1.8.7",
     "@emotion/react": "11",
     "@emotion/styled": "11",
+    "@line/bot-sdk": "^7.4.0",
     "framer-motion": "6",
     "next": "12.1.4",
     "next-auth": "^4.3.1",
