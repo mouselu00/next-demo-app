@@ -4,18 +4,6 @@ import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { signIn, getSession } from "next-auth/react";
 
 function index({ domain }) {
-  useEffect(() => {
-    // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
-    const webViewsAgentName = ["Line"];
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    alert(userAgent);
-    const inAppBrowser = webViewsAgentName.find((agentName) =>
-      userAgent.includes(agentName)
-    );
-    // if (inAppBrowser) {
-    //   window.location.href = `${domain}?openExternalBrowser=1`;
-    // }
-  }, []);
   return (
     <Center h="100vh">
       <Flex
@@ -53,8 +41,25 @@ function index({ domain }) {
 }
 
 export async function getServerSideProps(context) {
+  const userAgent = context.req.headers["user-agent"];
+  const webViewsAgentName = ["Line"];
+  const inAppBrowser = webViewsAgentName.find((agentName) =>
+    userAgent.includes(agentName)
+  );
+  if (inAppBrowser) {
+    // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/index?openExternalBrowser=1",
+      },
+    };
+  }
   const sessionData = await getSession(context);
-
+  console.log(
+    "🚀 ~ file: index.js ~ line 58 ~ getServerSideProps ~ userAgent",
+    userAgent
+  );
   if (sessionData) {
     return {
       redirect: {
