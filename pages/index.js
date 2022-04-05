@@ -8,21 +8,12 @@ function index({ domain }) {
     // https://www.wfublog.com/2018/06/mobile-detect-webview-fb-line-in-app.html
     const webViewsAgentName = ["Line"];
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
     const inAppBrowser = webViewsAgentName.find((agentName) =>
       userAgent.includes(agentName)
     );
+    alert(inAppBrowser);
     if (inAppBrowser) {
-      alert(inAppBrowser);
       window.location.href = `${domain}?openExternalBrowser=1`;
-      // if (/android/i.test(userAgent)) {
-      // }
-
-      // // iOS detection from: http://stackoverflow.com/a/9039885/177710
-      // if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      //   alert("IOS");
-      //   window.location.href = `googlechrome://${domain}`;
-      // }
     }
   }, []);
   return (
